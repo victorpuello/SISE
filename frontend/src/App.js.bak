@@ -1,0 +1,85 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './contexts/AuthContext';
+
+// Páginas
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Asistencias from './pages/Asistencias';
+import Calificaciones from './pages/Calificaciones';
+import Planeaciones from './pages/Planeaciones';
+import Observador from './pages/Observador';
+import Reportes from './pages/Reportes';
+
+// Componente de ruta protegida
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+};
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/asistencias" 
+          element={
+            <ProtectedRoute>
+              <Asistencias />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/calificaciones" 
+          element={
+            <ProtectedRoute>
+              <Calificaciones />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/planeaciones" 
+          element={
+            <ProtectedRoute>
+              <Planeaciones />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/observador" 
+          element={
+            <ProtectedRoute>
+              <Observador />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/reportes" 
+          element={
+            <ProtectedRoute>
+              <Reportes />
+            </ProtectedRoute>
+          } 
+        />
+        {/* Ruta de fallback para cualquier ruta que no coincida */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App; 
