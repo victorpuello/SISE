@@ -82,15 +82,17 @@ const deleteUsuario = async (id) => {
 };
 
 // Cambiar contraseña de un usuario
-const changePassword = async (id, passwordData) => {
-  try {
-    const response = await apiClient.post(`/${id}/cambiar-password/`, passwordData);
-    return response.data;
-  } catch (error) {
-    console.error(`Error al cambiar contraseña del usuario con ID ${id}:`, error);
-    throw error;
-  }
-};
+  const changePassword = async (id, passwordData) => {
+    try {
+      // El backend expone el endpoint `change_password` en inglés,
+      // por lo que debemos usar esa ruta para evitar errores 404.
+      const response = await apiClient.post(`/${id}/change_password/`, passwordData);
+      return response.data;
+    } catch (error) {
+      console.error(`Error al cambiar contraseña del usuario con ID ${id}:`, error);
+      throw error;
+    }
+  };
 
 export const usuariosService = {
   getUsuarios,
